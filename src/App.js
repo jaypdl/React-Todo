@@ -4,29 +4,32 @@ import TodoForm from './components/TodoForm';
 import './components/Todo.css';
 
 const todos = [
-  {
-    task: 'New Task!',
-    id: 1,
-    completed:false
-  },
-  {
-    task: 'Second Task!',
-    id: 2,
-    completed:false
-  }
-]
-
+    {
+      task: 'New Task!',
+      id: 1,
+      completed:false
+    },
+    {
+      task: 'Second Task!',
+      id: 2,
+      completed:false
+    }
+  ]
+  
 class App extends React.Component {
   // you will need a place to store your state in this component.
   // design `App` to be the parent component of your application.
   // this component is going to take care of state, and any change handlers you need to work with your state
   constructor(){
     super()
-    this.state = {
-      tasks: todos
-    }
+    this.state = JSON.parse(localStorage.getItem('ToDoSave'))
+      // tasks: todos
+    
   }
 
+  updateLocalStorage = () => {
+    localStorage.setItem('ToDoSave', JSON.stringify(this.state))
+  }
   handleToggle = (taskId) => {
     // console.log(taskId)
     this.setState({
@@ -40,6 +43,7 @@ class App extends React.Component {
         return task;
       } )
     })
+    this.updateLocalStorage();
   }
   
   handleAdd = (newTask) => {
@@ -50,6 +54,8 @@ class App extends React.Component {
         completed: false
       }]
     })
+    this.updateLocalStorage();
+
   }
 
   handleClear = () => {
@@ -60,6 +66,8 @@ class App extends React.Component {
         );
       })
     })
+    this.updateLocalStorage();
+
   }
 
   render() {
