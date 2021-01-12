@@ -22,16 +22,23 @@ class App extends React.Component {
   // this component is going to take care of state, and any change handlers you need to work with your state
   constructor(){
     super()
-    this.state = JSON.parse(localStorage.getItem('ToDoSave'))
-      // tasks: todos
+    this.state = {tasks: todos}
     
+  }
+
+  componentDidMount(){
+    this.setState(JSON.parse(localStorage.getItem('ToDoSave')))
   }
 
   updateLocalStorage = () => {
     localStorage.setItem('ToDoSave', JSON.stringify(this.state))
   }
+  
+  componentDidUpdate(){
+    this.updateLocalStorage()
+  }
+  
   handleToggle = (taskId) => {
-    // console.log(taskId)
     this.setState({
       tasks: this.state.tasks.map(task => {
         if (task.id === taskId) {
@@ -43,7 +50,6 @@ class App extends React.Component {
         return task;
       } )
     })
-    this.updateLocalStorage();
   }
   
   handleAdd = (newTask) => {
@@ -54,8 +60,6 @@ class App extends React.Component {
         completed: false
       }]
     })
-    this.updateLocalStorage();
-
   }
 
   handleClear = () => {
@@ -66,8 +70,6 @@ class App extends React.Component {
         );
       })
     })
-    this.updateLocalStorage();
-
   }
 
   render() {
